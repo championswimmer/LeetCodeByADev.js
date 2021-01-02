@@ -52,8 +52,8 @@ var threeSum = function(nums) {
         if (n > 0) pos.push(n)
         if (n == 0) { z++ }
     })
-    pos.sort()
-    neg.sort()
+    pos.sort((a,b) => a-b)
+    neg.sort((a,b) => b-a)
     
     if (z >= 3) {
         results.push([0,0,0])
@@ -63,6 +63,7 @@ var threeSum = function(nums) {
         let p = 0
         let n = 0 
         while (p < pos.length && n < neg.length) {
+            console.log('pos[p] -neg[n]  ' + pos[p] + '  ' +  -neg[n])
             if (pos[p] == -neg[n]) {
                 results.push([neg[n], 0, pos[p]])
                 p++ 
@@ -70,14 +71,13 @@ var threeSum = function(nums) {
                 continue
             }
             
-            if (pos[p] > -neg[n]) n++
-            else p++
+            if (pos[p] < -neg[n]) p++
+            else n++
         }
     }
 
     pos.forEach(p => {
         let r = sortedTwoSum(neg, -p)
-        console.log(r)
         if (r != 0) { 
             r.forEach(s => {
                 results.push([s[0], s[1], p])
@@ -87,7 +87,6 @@ var threeSum = function(nums) {
 
     neg.forEach(n => {
         let r = sortedTwoSum(pos, -n)
-        console.log(r)
         if (r != 0) { 
             r.forEach(s=> {
                 results.push([n, s[0], s[1]])
@@ -102,3 +101,5 @@ var threeSum = function(nums) {
     return results.map(r => r.split(','))
     
 };
+console.log(threeSum([3,-10,0,6,8,-5,-6,-1,-7,6,-9]))
+
