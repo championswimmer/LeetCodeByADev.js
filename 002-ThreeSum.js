@@ -54,7 +54,7 @@ var threeSum = function(nums) {
         if (n == 0) { z++ }
     })
     
-    if (z == 3) {
+    if (z >= 3) {
         results.push([0,0,0])
     }
     
