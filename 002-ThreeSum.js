@@ -28,6 +28,11 @@ Constraints:
     -10^5 <= nums[i] <= 10^5
 
 */ 
+/**
+ * @param {number[]} nums
+ * @return {number[][]}
+ */
+
 
 var threeSum = function(nums) {
     let results = []
@@ -37,23 +42,26 @@ var threeSum = function(nums) {
         let j = nums.indexOf(target - nums[i], i+1)
         if (j != -1) return ([nums[i], nums[j]])
     }
-    return ([0])   
+    return [0]    
 }
     
     let pos = []
     let neg = []
-    let z = false
+    let z = 0
     nums.forEach(n => {
         if (n < 0) neg.push(n)
         if (n > 0) pos.push(n)
-        if (n == 0) { z = true }
+        if (n == 0) { z++ }
     })
     
-    if (z == true) {
+    if (z == 3) {
+        results.push([0,0,0])
+    }
+    
+    if (z == 1) {
         let p = 0
         let n = 0 
         while (p < pos.length && n < neg.length) {
-            console.log(pos[p] + '  ' + neg[n] + '   ' + p + '  '  + n)
             if (pos[p] == -neg[n]) {
                 results.push([neg[n], 0, pos[p]])
                 p++ 
@@ -75,6 +83,8 @@ var threeSum = function(nums) {
         let r = sortedTwoSum(pos, -n)
         if (r.join() != '0') { results.push([n, r[0], r[1]]) }
     })
+
+
 
     return results
     
