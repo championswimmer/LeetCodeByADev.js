@@ -26,8 +26,6 @@ Constraints:
 
     0 <= nums.length <= 3000
     -10^5 <= nums[i] <= 10^5
-
-*/ 
 /**
  * @param {number[]} nums
  * @return {number[][]}
@@ -38,11 +36,12 @@ var threeSum = function(nums) {
     let results = []
     
     var sortedTwoSum = function(nums, target) {
+    let sts = []    
     for (let i = 0; i < nums.length; i++) {
         let j = nums.indexOf(target - nums[i], i+1)
-        if (j != -1) return ([nums[i], nums[j]])
+        if (j != -1) sts.push([nums[i], nums[j]])
     }
-    return [0]    
+    return sts
 }
     
     let pos = []
@@ -53,12 +52,14 @@ var threeSum = function(nums) {
         if (n > 0) pos.push(n)
         if (n == 0) { z++ }
     })
+    pos.sort()
+    neg.sort()
     
     if (z >= 3) {
         results.push([0,0,0])
     }
     
-    if (z == 1) {
+    if (z >= 1) {
         let p = 0
         let n = 0 
         while (p < pos.length && n < neg.length) {
@@ -76,16 +77,28 @@ var threeSum = function(nums) {
 
     pos.forEach(p => {
         let r = sortedTwoSum(neg, -p)
-        if (r.join() != '0') { results.push([r[0], r[1], p]) }
+        console.log(r)
+        if (r != 0) { 
+            r.forEach(s => {
+                results.push([s[0], s[1], p])
+            })
+         }
     })
 
     neg.forEach(n => {
         let r = sortedTwoSum(pos, -n)
-        if (r.join() != '0') { results.push([n, r[0], r[1]]) }
+        console.log(r)
+        if (r != 0) { 
+            r.forEach(s=> {
+                results.push([n, s[0], s[1]])
+            })
+         }
     })
 
+    
+    results = results.map(r => r.join(','))
+    results = [...new Set(results)]
 
-
-    return results
+    return results.map(r => r.split(','))
     
 };
